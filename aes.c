@@ -99,8 +99,8 @@ static void key_expansion() {
     // Constructing the expanded key one word at a time.
     for (i = Nk; i < Nb * (Nr + 1); ++i) {
         // Get the indices of the (i-1)st word and (i-Nk)th word.
-        gmc(m, c, &pm, &pc, 1);
-        gmc(m, c, &bm, &bc, Nk);
+        get_indices(m, c, &pm, &pc, 1);
+        get_indices(m, c, &bm, &bc, Nk);
 
         // (i-1)st word.
         temp[0] = w[pm][0][pc];

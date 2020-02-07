@@ -15,15 +15,16 @@ static int Nk;              // Size of key in words.
 static int Bk;              // Size of key in bytes.
 static int ws;              // Number of key blocks.
 
-static unsigned char key[MAX_KEYLEN];       // Base key.
-static unsigned char w[MAX_ROUND_KEYS][Nb][Nb];           // Expanded key.
-static unsigned char state[Nb][Nb];           // Current state during encryption/ decryption.
+static unsigned char key[MAX_KEYLEN];               // Base key.
+static unsigned char w[MAX_ROUND_KEYS][Nb][Nb];     // Expanded key.
+static unsigned char state[Nb][Nb];                 // Current state during encryption/ decryption.
 
 // Sets key bytes to zero.
 static void reset_key() {
     memset(key, 0, sizeof(key));
 }
 
+// Shifts word bytes once to the right.
 void inv_rot_word(unsigned char *word) {
     unsigned char temp = word[3];
     word[3] = word[2];
@@ -48,6 +49,7 @@ void sub_word(unsigned char *word) {
     }
 }
 
+// Gets indices for (i-1)st and (i-Nk)th word.
 static void get_indices(int m, int c, int *nm, int *nc, int d) {
     if (d == 1) {
         *nc = (c == 0) ? 3 : c - 1;

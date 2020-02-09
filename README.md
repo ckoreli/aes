@@ -2,26 +2,47 @@
 Advanced Encryption Standard
 
 ## Introduction
-Perhaps the most popular encryption algorithm, AES(originaly called Rijndael) is a symmetric-key algorithm block cipher, meaning the same key is used for both encrypting and decrypting the data.
+A library for encrypting/ decrypting strings(character arrays) or files using the Advanced Encryption Standard, a subset of the Rijndael block cipher, with a 128bit block size and supporting 128bit, 192bit and 256bit key lengths. 128bit key ciphers are announced sufficient for protecting classified information up to the SECRET level by the US government. TOP SECRET information will require use of the 192bit or 256bit key lengths. 
 
 ## Usage
-### Encryption
-```sh
-./aes_encrypt -i INPUT_FILE -o OUTPUT_FILE -k KEY_FILE
+```c
+set_key(unsigned char *_key, int _keylen);
 ```
-* `-i` specifies the input text file on which the cipher will be implemented.
-* `-o` specifies the file to which to write the cipher text.
-* `-k` specifies a text file containing the encryption key(may be 128, 192 or 256 bits long).
+Sets `_key` as the new cipher key.
+
+```c
+generate_key(int _keylen);
+```
+Generates a new pseudo-random cipher key of length `_keylen`.
+
+Key length must be 16(128bit), 24(192bit) or 32(256bit) characters.
+
+### Encryption
+```c
+cipher(unsigned char *_dest, unsigned char *_src, int _size);
+```
+Encrypts `_src` of length `_size` and writes the ciphertext to `_dest`. Size of `_dest` should be the nearest multiple of 16 greater than `_size`.
+
+```c
+fcipher(FILE *_in, FILE *_out);
+```
+Reads 16 characters at a time from `_in`, ciphering them and writing to `_out`.
 
 ### Decryption
-```sh
-./aes_decrypt -i INPUT_FILE -o OUTPUT_FILE -k KEY_FILE
+```c
+decipher(unsigned char *_dest, unsigned char *_src, int _size);
 ```
-* `-i` specifies the input text file which is to be deciphered.
-* `-o` specifies the file to which to write the deciphered text.
-* `-k` specifies a text file containing the encryption key(may be 128, 192 or 256 bits long).
+Decrypts `_src` of length `_size` and writes the ciphertext to `_dest`(should be the same size as `_src`).
+
+```c
+fdecipher(FILE *_in, FILE *_out);
+```
+Reads 16 characters at a time from `_in`, deciphering them and writing to `_out`.
 
 ## Useful Links
 * https://nvlpubs.nist.gov/nistpubs/FIPS/NIST.FIPS.197.pdf
+* http://www.angelfire.com/biz7/atleast/mix_columns.pdf
+* https://en.wikipedia.org/wiki/Advanced_Encryption_Standard
+* https://en.wikipedia.org/wiki/Finite_field_arithmetic
 * https://www.youtube.com/watch?v=x1v2tX4_dkQ
 * https://www.youtube.com/watch?v=NHuibtoL_qk

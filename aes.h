@@ -5,6 +5,8 @@
 extern "C" {
 #endif
 
+// #include <stdio.h>
+
 typedef unsigned char byte;
 
 // Substitution box for key expansion and ciphering.
@@ -51,7 +53,7 @@ static void reset_key();
 void inv_rot_word(unsigned char *word);
 void rot_word(unsigned char *word);
 void sub_word(unsigned char *word);
-static inline void get_indices(int m, int c, int *nm, int *nc, int d);
+static void get_indices(int m, int c, int *nm, int *nc, int d);
 static void key_expansion();
 
 int set_key(unsigned char *_key, int _keylen);
@@ -61,14 +63,14 @@ static void add_round_key(int s);
 static void sub_bytes();
 static void shift_rows();
 static void mix_columns();
-void cipher(unsigned char *_str, int _size);
-void fcipher(FILE *in);
+void cipher(unsigned char *_dest, unsigned char *_src, int _size);
+void fcipher(FILE *in, FILE *out);
 
 static void inv_sub_bytes();
 static void inv_shift_rows();
 static void inv_mix_columns();
-void decipher(unsigned char *_str, int _size);
-void fdecipher(FILE *in);
+void decipher(unsigned char *_dest, unsigned char *_src, int _size);
+void fdecipher(FILE *in, FILE *out);
 
 #ifdef __cplusplus
 }
